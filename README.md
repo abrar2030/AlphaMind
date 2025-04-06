@@ -1,6 +1,5 @@
 # Quantitative AI Trading System
 
-[![CI/CD Pipeline](https://github.com/quant-ai/hft-system/actions/workflows/ci_cd.yml/badge.svg)](https://github.com/quant-ai/hft-system/actions)
 [![License: QFAL](https://img.shields.io/badge/License-Quantitative%20Finance%20AI%20License-blue)](LICENSE)
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-blue)](https://www.python.org/)
 [![MLflow](https://img.shields.io/badge/MLflow-Enabled-orange)](https://mlflow.org/)
