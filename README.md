@@ -39,7 +39,7 @@ An institutional-grade quantitative trading system combining alternative data, m
 
 ```bash
 # Clone repository
-git clone https://github.com/quant-ai/hft-system.git
+git clone https://github.com/abrar2030/AlphaMind.git
 cd hft-system
 
 # Initialize environment
