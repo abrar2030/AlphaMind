@@ -4,8 +4,6 @@
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-blue)](https://www.python.org/)
 [![MLflow](https://img.shields.io/badge/MLflow-Enabled-orange)](https://mlflow.org/)
 
-![System Architecture](docs/images/quant_architecture.png)
-
 An institutional-grade quantitative trading system combining alternative data, machine learning, and high-frequency execution strategies.
 
 ## 🌟 Key Features
