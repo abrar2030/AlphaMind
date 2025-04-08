@@ -1,199 +1,57 @@
-# Quantitative AI Trading System
+# AlphaMind Project
 
-[![License: QFAL](https://img.shields.io/badge/License-Quantitative%20Finance%20AI%20License-blue)](LICENSE)
-[![Python 3.10](https://img.shields.io/badge/Python-3.10-blue)](https://www.python.org/)
-[![MLflow](https://img.shields.io/badge/MLflow-Enabled-orange)](https://mlflow.org/)
+AlphaMind is an institutional-grade quantitative trading system combining alternative data, machine learning, and high-frequency execution strategies.
 
-An institutional-grade quantitative trading system combining alternative data, machine learning, and high-frequency execution strategies.
+## Project Structure
 
-## 🌟 Key Features
+This project is organized into two main components:
 
-- **Alternative Data Integration**
-  - Satellite imagery processing
-  - SEC 8K real-time monitoring
-  - Earnings call NLP sentiment analysis
-- **Quantitative Research**
-  - Machine learning factor models
-  - Regime switching detection
-  - Exotic derivatives pricing
-- **Execution Infrastructure**
-  - Microsecond latency arbitrage
-  - Hawkes process liquidity forecasting
-  - Smart order routing
-- **Risk Management**
-  - Bayesian VaR with regime adjustments
-  - Counterparty credit risk (CVA/DVA)
-  - Extreme scenario stress testing
-- **AI/ML Core**
-  - Temporal Fusion Transformers
-  - Reinforcement learning portfolio optimization
-  - Generative market simulation
+### Backend
 
-## 🚀 Quick Start
+The backend contains the core AlphaMind trading system with the following modules:
 
-### Prerequisites
-- NVIDIA GPU (CUDA 11.7+)
-- Kafka cluster
-- QuantLib 2.0+
-- GCP/AWS account (for cloud MLOps)
+- **AI Models**: Temporal Fusion Transformers, Reinforcement Learning, and Generative Models
+- **Alternative Data**: Satellite imagery processing, SEC filings analysis, and NLP sentiment analysis
+- **Risk System**: Bayesian VaR, stress testing, and counterparty risk management
+- **Execution Engine**: Smart order routing, liquidity forecasting, and market impact modeling
+- **Infrastructure**: Kafka streaming, GCP Vertex AI integration, and QuantLib integration
 
-```bash
-# Clone repository
-git clone https://github.com/abrar2030/AlphaMind.git
-cd AlphaMind
+### Frontend
 
-# Initialize environment
-make setup && dvc pull
+The frontend is a responsive website that showcases the AlphaMind project:
 
-# Install dependencies
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-```
+- **HTML Pages**: Homepage, Features, Documentation, Research, and About pages
+- **CSS Styles**: Responsive design with modern styling
+- **JavaScript**: Interactive elements and examples
+- **Images**: SVG diagrams illustrating key components
+- **Documentation**: API reference, tutorials, and user guides
+- **Downloads**: Sample data generation scripts and examples
 
-## 📈 Usage
+## Getting Started
 
-### Data Pipeline
-```bash
-# Start alternative data ingestion
-python -m alternative_data.main \
-  --satellite-api-key $SAT_KEY \
-  --sec-monitor-tickers AAPL,TSLA,NVDA
+1. Install the required dependencies:
+   ```
+   cd backend
+   pip install -r requirements.txt
+   ```
 
-# Generate synthetic market data
-python research/data_synthesis.py \
-  --output data/synthetic/v3_microstructure.parquet
-```
+2. Run the frontend locally:
+   ```
+   cd frontend
+   python -m http.server 8000
+   ```
 
-### Model Training
-```bash
-# Train temporal fusion transformer
-mlflow run ai_models/transformer_timeseries \
-  -P num_epochs=100 \
-  -P hidden_size=256
+3. Access the website at http://localhost:8000
 
-# Calibrate Heston volatility surface
-python infrastructure/quantlib_integration/volatility_surface.py \
-  --calibration-file config/vol_calibration.json
-```
+## Documentation
 
-### Live Trading
-```bash
-python execution_engine/main.py \
-  --strategy combined_alpha \
-  --risk-model hierarchical_var \
-  --universe sp500_futures \
-  --capital 1e8 \
-  --latency-budget 25us
-```
+For detailed documentation, please refer to the following resources:
 
-## 🏗️ Project Structure
-```plaintext
-quant_ai/
-├── alternative_data/      # Non-traditional data sources
-├── alpha_research/        # Factor research & strategy dev
-├── execution_engine/      # Order execution infrastructure
-├── risk_system/           # Portfolio risk management
-├── ai_models/             # ML/DL model implementations
-├── infrastructure/        # Cloud & low-latency systems
-└── research/              # Strategy research notebooks
-```
+- API Reference: `frontend/docs/api/api-reference.md`
+- Getting Started Guide: `frontend/docs/tutorials/getting-started.md`
+- User Guide: `frontend/docs/tutorials/user-guide.md`
+- Backtesting Example: `frontend/docs/tutorials/backtesting_example.md`
 
-## ⚙️ Configuration
+## License
 
-Modify `config/quant_config.yaml`:
-
-```yaml
-execution:
-  latency_budget: 25us
-  venue_weights:
-    NYSE: 0.4
-    NASDAQ: 0.3
-    CME: 0.3
-
-alpha:
-  decay_halflife: 63
-  max_leverage: 3.0
-  turnover_limit: 0.2
-
-risk:
-  var_confidence: 0.99
-  stress_scenarios: [2008, 2020, flash_crash]
-  max_drawdown: 0.15
-```
-
-## 📡 API Interface
-```bash
-# Get real-time portfolio risk metrics
-curl -X POST https://api.quant-ai.com/risk \
-  -H "Authorization: Bearer $QAI_KEY" \
-  -d '{
-    "portfolio": ["ES.FUT", "BTC-USD"],
-    "confidence": 0.99
-  }'
-
-# Response
-{
-  "var": 1520000,
-  "expected_shortfall": 2180000,
-  "liquidity_risk": 0.23,
-  "scenario_losses": {
-    "2008": 4850000,
-    "flash_crash": 3120000
-  }
-}
-```
-
-## 📊 Monitoring & Analytics
-```bash
-# Access real-time dashboards
-kubectl port-forward svc/grafana 3000:3000 &
-open http://localhost:3000/d/quant_overview
-
-# View ML experiments
-mlflow ui --port 5000
-```
-
-## 🧪 Model Validation
-
-### Backtesting Results (2020-2023)
-
-| Strategy         | Sharpe Ratio | Max DD | Profit Factor |
-|------------------|--------------|--------|---------------|
-| TFT Alpha        | 2.1          | 12%    | 3.4           |
-| RL Portfolio     | 1.8          | 15%    | 2.9           |
-| Hybrid Approach  | 2.4          | 9%     | 4.1           |
-
-### Fairness Metrics
-```json
-{
-  "sector_neutrality": 0.92,
-  "cap_size_bias": 0.15,
-  "turnover_consistency": 0.88
-}
-```
-
-## 🤝 Contributing
-
-Submit strategy proposal via `research/proposals/`
-
-Follow backtesting protocol:
-```bash
-python -m alpha_research.backtest \
-  --strategy new_alpha \
-  --universe global_futures \
-  --out-of-sample 2023
-```
-
-Pass risk checks:
-```bash
-pytest tests/risk_checks/test_new_strategy.py
-```
-
-Submit pull request with:
-- Complete backtest reports
-- Risk assessment
-- Documentation updates
-
-## 📄 License
-
-This project is licensed under the Quantitative Finance AI License (QFAL) - see LICENSE for commercial use restrictions.
+This project is licensed under the MIT License - see the LICENSE file for details.
