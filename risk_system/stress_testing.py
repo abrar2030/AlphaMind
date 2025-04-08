@@ -1,3 +1,7 @@
+import numpy as np
+import pandas as pd
+from scipy.stats import multivariate_t
+
 class ExtremeScenarioGenerator:
     def __init__(self, copula='t', tail_dependence=0.3):
         self.copula = copula

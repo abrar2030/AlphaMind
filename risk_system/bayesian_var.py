@@ -1,9 +1,11 @@
+import numpy as np
 import pymc3 as pm
 import arviz as az
 
 class BayesianVaR:
     def __init__(self, returns):
         self.returns = returns
+        self.var_model = None
         
     def build_model(self):
         with pm.Model() as var_model:
@@ -22,9 +24,13 @@ class BayesianVaR:
                 observed=self.returns
             )
             
-        self.trace = pm.sample(2000, tune=1000, cores=4)
+            self.var_model = var_model
+            self.trace = pm.sample(2000, tune=1000, cores=4)
         
     def calculate_var(self, alpha=0.05):
-        post_pred = pm.sample_posterior_predictive(
-            self.trace, var_model)
-        return az.hdi(post_pred['returns'], alpha*2).sel(hdi='lower')
+        if self.var_model is None:
+            raise ValueError("Model not built. Call build_model() first.")
+            
+        with self.var_model:
+            post_pred = pm.sample_posterior_predictive(self.trace)
+            return az.hdi(post_pred['returns'], alpha*2).sel(hdi='lower')

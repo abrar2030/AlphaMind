@@ -1,6 +1,26 @@
-from confluent_kafka import DeserializingConsumer
+from confluent_kafka import DeserializingConsumer, KafkaException
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroDeserializer
+import pandas as pd
+import numpy as np
+
+# Define the market data schema
+market_data_schema = """
+{
+  "type": "record",
+  "name": "MarketData",
+  "fields": [
+    {"name": "timestamp", "type": "long"},
+    {"name": "symbol", "type": "string"},
+    {"name": "bid_price", "type": "double"},
+    {"name": "ask_price", "type": "double"},
+    {"name": "bid_size", "type": "double"},
+    {"name": "ask_size", "type": "double"},
+    {"name": "volume", "type": "double"},
+    {"name": "open_interest", "type": "double"}
+  ]
+}
+"""
 
 class MarketDataPipeline:
     def __init__(self, schema_registry_url):
@@ -37,3 +57,24 @@ class MarketDataPipeline:
             'ask_size': raw_tick['ask_size'],
             'microstructure': self._calculate_micro_features(raw_tick)
         }
+        
+    def _calculate_micro_features(self, tick):
+        """Calculate microstructure features from tick data"""
+        spread = tick['ask_price'] - tick['bid_price']
+        mid_price = (tick['ask_price'] + tick['bid_price']) / 2
+        imbalance = (tick['bid_size'] - tick['ask_size']) / (tick['bid_size'] + tick['ask_size'])
+        
+        return {
+            'spread': spread,
+            'spread_pct': spread / mid_price,
+            'order_imbalance': imbalance,
+            'liquidity_score': self._calculate_liquidity_score(tick)
+        }
+        
+    def _calculate_liquidity_score(self, tick):
+        """Calculate liquidity score based on order book depth and spread"""
+        total_size = tick['bid_size'] + tick['ask_size']
+        spread = tick['ask_price'] - tick['bid_price']
+        
+        # Higher is better (more liquidity)
+        return (total_size / 1000) / (1 + spread)
