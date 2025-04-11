@@ -1,0 +1,29 @@
+---
+# roles/webserver/tasks/main.yml
+- name: Install web server packages
+  yum:
+    name:
+      - nginx
+      - nodejs
+      - npm
+    state: present
+
+- name: Create web application directory
+  file:
+    path: /var/www/{{ app_name }}
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: '0755'
+
+- name: Configure Nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/conf.d/{{ app_name }}.conf
+  notify: Restart Nginx
+
+- name: Start and enable Nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes

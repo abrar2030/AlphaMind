@@ -1,0 +1,15 @@
+---
+# main.yml - Main playbook that includes all other playbooks
+- name: Configure web servers
+  hosts: webservers
+  become: true
+  roles:
+    - common
+    - webserver
+
+- name: Configure database servers
+  hosts: databases
+  become: true
+  roles:
+    - common
+    - database

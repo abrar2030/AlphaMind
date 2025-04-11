@@ -1,0 +1,47 @@
+---
+# roles/database/tasks/main.yml
+- name: Install database packages
+  yum:
+    name:
+      - mariadb-server
+      - mariadb
+      - python3-PyMySQL
+    state: present
+
+- name: Configure MariaDB
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf.d/server.cnf
+  notify: Restart MariaDB
+
+- name: Start and enable MariaDB
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Set root password
+  mysql_user:
+    name: root
+    password: "{{ db_root_password }}"
+    host_all: yes
+    state: present
+  no_log: true
+
+- name: Create application database
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+    login_user: root
+    login_password: "{{ db_root_password }}"
+
+- name: Create application database user
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: "{{ db_name }}.*:ALL"
+    host: '%'
+    state: present
+    login_user: root
+    login_password: "{{ db_root_password }}"
+  no_log: true

@@ -1,0 +1,16 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+symbolic-links=0
+
+max_connections = {{ db_max_connections | default(100) }}
+max_allowed_packet = {{ db_max_allowed_packet | default('64M') }}
+innodb_buffer_pool_size = {{ db_innodb_buffer_pool_size | default('256M') }}
+innodb_log_file_size = {{ db_innodb_log_file_size | default('64M') }}
+
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+[mysqld_safe]
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid
