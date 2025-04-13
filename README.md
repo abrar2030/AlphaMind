@@ -1,5 +1,9 @@
 # AlphaMind Project
 
+<div align="center">
+  <img src="alphamind.png" alt="AlphaMind - Next-Gen Quantitative AI Trading System" width="100%">
+</div>
+
 AlphaMind is an institutional-grade quantitative trading system combining alternative data, machine learning, and high-frequency execution strategies.
 
 > **Note**: This Project is currently under active development. Features and functionalities are being added and improved continuously to enhance user experience.
