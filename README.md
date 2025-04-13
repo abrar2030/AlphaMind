@@ -2,6 +2,8 @@
 
 AlphaMind is an institutional-grade quantitative trading system combining alternative data, machine learning, and high-frequency execution strategies.
 
+> **Note**: This Project is currently under active development. Features and functionalities are being added and improved continuously to enhance user experience.
+
 ## Project Structure
 
 This project is organized into two main components:
