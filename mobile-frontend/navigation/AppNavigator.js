@@ -1,32 +1,52 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { useState } from 'react';
+import { BottomNavigation } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import HomeScreen from '../screens/HomeScreen';
 import FeaturesScreen from '../screens/FeaturesScreen';
 import DocumentationScreen from '../screens/DocumentationScreen';
 import ResearchScreen from '../screens/ResearchScreen';
+import SettingsScreen from '../screens/SettingsScreen'; // Import SettingsScreen
 
-const Tab = createBottomTabNavigator();
+const HomeRoute = () => <HomeScreen />;
+const FeaturesRoute = () => <FeaturesScreen />;
+const DocsRoute = () => <DocumentationScreen />;
+const ResearchRoute = () => <ResearchScreen />;
+const SettingsRoute = () => <SettingsScreen />; // Define SettingsRoute
 
 export default function AppNavigator() {
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
+    { key: 'features', title: 'Features', focusedIcon: 'star', unfocusedIcon: 'star-outline' },
+    { key: 'docs', title: 'Docs', focusedIcon: 'file-document', unfocusedIcon: 'file-document-outline' },
+    { key: 'research', title: 'Research', focusedIcon: 'flask', unfocusedIcon: 'flask-outline' },
+    { key: 'settings', title: 'Settings', focusedIcon: 'cog', unfocusedIcon: 'cog-outline' }, // Add settings route
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    home: HomeRoute,
+    features: FeaturesRoute,
+    docs: DocsRoute,
+    research: ResearchRoute,
+    settings: SettingsRoute, // Add settings scene
+  });
+
+  const renderIcon = ({ route, focused, color }) => {
+    return <Icon name={focused ? route.focusedIcon : route.unfocusedIcon} size={24} color={color} />;
+  };
+
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        tabBarActiveTintColor: '#f4511e',
-        tabBarInactiveTintColor: 'gray',
-      }}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'AlphaMind Home' }} />
-      <Tab.Screen name="Features" component={FeaturesScreen} />
-      <Tab.Screen name="Docs" component={DocumentationScreen} options={{ title: 'Documentation' }} />
-      <Tab.Screen name="Research" component={ResearchScreen} />
-    </Tab.Navigator>
+    <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+      renderIcon={renderIcon}
+      // Optional: Customize appearance
+      // activeColor="#6200ee"
+      // inactiveColor="#9e9e9e"
+      // barStyle={{ backgroundColor: '#ffffff' }}
+    />
   );
 }
 

@@ -1,26 +1,101 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Surface, Text, Headline, Paragraph, Card, Title, useTheme } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// Mock KPI data
+const kpiData = [
+  { title: 'Portfolio Value', value: '$1,250,345.67', change: '+1.2%', changeColor: 'green', icon: 'chart-line' },
+  { title: 'Daily P&L', value: '$15,678.90', change: '+0.8%', changeColor: 'green', icon: 'trending-up' },
+  { title: 'Sharpe Ratio', value: '2.35', change: '-0.05', changeColor: 'red', icon: 'chart-bell-curve-cumulative' },
+  { title: 'Active Strategies', value: '12', change: '+1', changeColor: 'blue', icon: 'robot' },
+];
 
 export default function HomeScreen() {
+  const theme = useTheme();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to AlphaMind</Text>
-      <Text>The next-gen quantitative AI trading system.</Text>
-    </View>
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <Headline style={styles.title}>AlphaMind Dashboard</Headline>
+      <Paragraph style={styles.paragraph}>Real-time overview of your quantitative trading performance.</Paragraph>
+
+      <View style={styles.kpiContainer}>
+        {kpiData.map((kpi, index) => (
+          <Card key={index} style={styles.kpiCard}>
+            <Card.Content style={styles.kpiCardContent}>
+              <Icon name={kpi.icon} size={32} color={theme.colors.primary} style={styles.kpiIcon} />
+              <View style={styles.kpiTextContainer}>
+                <Text style={styles.kpiTitle}>{kpi.title}</Text>
+                <Title style={styles.kpiValue}>{kpi.value}</Title>
+                <Text style={[styles.kpiChange, { color: kpi.changeColor }]}>{kpi.change}</Text>
+              </View>
+            </Card.Content>
+          </Card>
+        ))}
+      </View>
+
+      <Paragraph style={styles.infoText}>
+        Navigate using the bottom tabs to explore features, documentation, and research.
+      </Paragraph>
+
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    flexGrow: 1,
+    padding: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  paragraph: {
+    marginBottom: 24,
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  kpiContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 24,
+  },
+  kpiCard: {
+    width: '48%', // Approximately half width for two columns
+    marginBottom: 16,
+  },
+  kpiCardContent: {
+    alignItems: 'center',
+    paddingHorizontal: 8, // Reduce padding for smaller cards
+    paddingVertical: 12,
+  },
+  kpiIcon: {
+    marginBottom: 8,
+  },
+  kpiTextContainer: {
+    alignItems: 'center',
+  },
+  kpiTitle: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 2,
+    textAlign: 'center',
+  },
+  kpiValue: {
+    fontSize: 16, // Slightly smaller font for values
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  kpiChange: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  infoText: {
+    textAlign: 'center',
+    color: '#888',
+    marginTop: 16,
   },
 });
 
