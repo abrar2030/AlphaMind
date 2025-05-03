@@ -1,0 +1,27 @@
+I've provided the AlphaMind Project along with its test cases in a zip file. Your task is to:
+
+Review the existing tests for the web frontend, backend, and mobile frontend.
+
+Fix any errors you find in the test cases.
+
+Improve the tests where necessary—optimize or refactor them as needed.
+
+Add new test cases if any parts of the project are missing coverage.
+
+Organize the test files correctly in their respective directories within the project structure.
+
+Finally, return a zip file of the complete project, including the updated and organized test cases for all parts.
+
+
+
+
+
+
+
+I've provided my project in a zip file. Your task is to:
+
+Write test cases for all parts of the project (backend, frontend, etc.).
+
+Ensure the tests are well-structured and comprehensive, covering key functionality.
+
+After writing the tests, package only the newly created test directory in a zip file and send it back.
