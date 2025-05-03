@@ -1,0 +1,41 @@
+## AlphaMind Project Testing and Enhancement Checklist
+
+- [X] 001: Unzip and review project structure (`/home/ubuntu/AlphaMind_Project`)
+- [X] 002: Identify web-frontend, backend, and mobile-frontend components
+    - [X] Backend: Identify technology stack and setup steps. (Python, requirements.txt)
+    - [X] Web Frontend: Identify technology stack and setup steps. (Node.js, package.json)
+    - [X] Mobile Frontend: Identify technology stack and setup steps. (React Native/Node.js, package.json, yarn.lock)
+- [ ] 003: Set up backend component
+    - [X] Backend: Install dependencies.
+    - [ ] Backend: Attempt to run (Skipped: No applicable entry point found initially).
+- [X] 004: Investigate backend entry point and launch method
+    - [X] Conclusion: No local API server entry point found. Backend appears modular/script-based.
+- [X] 005: Design and implement backend API server entry point
+    - [X] Choose framework (e.g., Flask).
+    - [X] Create basic API server script (`src/main.py`).
+    - [X] Add framework to dependencies (`requirements.txt`).
+    - [X] Install new dependency.
+    - [X] Attempt to run the new backend server. (Running successfully)
+- [X] 006: Set up and run web and mobile frontend
+    - [X] Web Frontend: Install dependencies. (Installed)
+    - [X] Web Frontend: Attempt to run. (Running via Python HTTP server)
+    - [X] Mobile Frontend: Install dependencies. (Installed)
+    - [X] Mobile Frontend: Attempt to run. (Running via Expo web)
+- [X] 007: Test all components for errors and issues
+    - [X] Backend: Run tests (if available), test API endpoints. (Scripts fixed, dependencies resolved. Pytest runs but finds no tests due to script structure. API endpoint needs manual check.)
+    - [X] Web Frontend: Run tests (if available), check browser console, UI/UX testing. (Tests passed)
+    - [X] Mobile Frontend: Run tests (if available), check logs, UI/UX testing. (Tests passed)
+- [ ] 008: Fix detected errors and apply enhancements
+    - [ ] Document errors found (Backend test structure needs refactoring for pytest discovery).
+    - [ ] Implement fixes (Backend test scripts updated for error reporting, dependencies fixed).
+    - [ ] Identify and implement enhancements (User requested GitHub Actions update).
+- [ ] 009: Update GitHub Action pipeline with lint, build, test
+    - [ ] Locate workflow file(s).
+    - [ ] Modify workflow(s) to include only lint, build, test steps for all components.
+    - [ ] Save updated workflow file(s).
+- [X] 010: Validate all components are running smoothly
+    - [X] Re-run tests (where applicable).
+    - [X] Perform integration testing (frontend with backend).
+    - [X] Manually verify backend API endpoint. (Health check OK)
+- [ ] 011: Repackage and zip updated project (exclude `node_modules`)
+- [ ] 012: Report and send updated zip to user

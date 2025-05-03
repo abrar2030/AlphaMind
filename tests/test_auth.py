@@ -1,6 +1,8 @@
 import sys
 import os
-sys.path.append('/home/ubuntu/AlphaMind/backend')
+# Correct the path to the backend directory within the project
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backend')))
+
 try:
     from infrastructure.authentication import AuthenticationSystem
     print("✓ Successfully imported AuthenticationSystem")
@@ -9,21 +11,29 @@ try:
     import jwt
     from flask import Flask
     
+    # Create a dummy Flask app context for the test if needed
+    # This might be necessary if AuthenticationSystem relies on app context
     app = Flask(__name__)
-    auth = AuthenticationSystem(app, 'test-secret-key')
-    print("✓ Successfully initialized AuthenticationSystem")
+    app.config["SECRET_KEY"] = "test-secret-key" # Ensure secret key is set
     
-    token = auth.generate_token('testuser')
-    print("✓ Successfully generated token")
-    
-    username = auth.verify_token(token)
-    if username == 'testuser':
-        print("✓ Successfully verified token")
-    else:
-        print(f"✗ Token verification failed: {username}")
-        sys.exit(1)
+    # Use app context
+    with app.app_context():
+        auth = AuthenticationSystem(app, app.config["SECRET_KEY"])
+        print("✓ Successfully initialized AuthenticationSystem")
+        
+        token = auth.generate_token("testuser")
+        print("✓ Successfully generated token")
+        
+        username = auth.verify_token(token)
+        if username == "testuser":
+            print("✓ Successfully verified token")
+        else:
+            # Raise an assertion error instead of exiting
+            raise AssertionError(f"Token verification failed: expected 'testuser', got '{username}'")
     
     print("All tests passed for authentication.py")
+# Let pytest handle exceptions naturally instead of exiting
 except Exception as e:
-    print(f"✗ Error: {str(e)}")
-    sys.exit(1)
+    print(f"✗ Error during test: {str(e)}")
+    # Raise the exception again so pytest marks the test as failed
+    raise e
