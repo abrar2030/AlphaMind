@@ -123,9 +123,9 @@ class AuthenticationSystem:
             )
             return payload['sub']
         except jwt.ExpiredSignatureError:
-            return None
+            raise  # Re-raise the exception
         except jwt.InvalidTokenError:
-            return None
+            raise  # Re-raise the exception
     
     def token_required(self, f):
         """

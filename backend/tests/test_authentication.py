@@ -10,9 +10,8 @@ from functools import wraps # Import wraps
 sys.path.append("/home/ubuntu/alphamind_project/backend")
 
 from infrastructure.authentication import AuthenticationSystem
-
 # Using a single fixture to create app and auth context to avoid route overwriting
-@pytest.fixture(scope=\'function\')
+@pytest.fixture(scope='function')
 def app_context():
     """Create and configure a new app instance and auth system for each test."""
     app = Flask(__name__)
@@ -29,24 +28,20 @@ def app_context():
         def decorated(*args, **kwargs):
             token = None
             # Get token from Authorization header
-            auth_header = request.headers.get(\'Authorization\')
-            if auth_header and auth_header.startswith(\'Bearer \'):
-                token = auth_header.split(\' \')[1]
-        
-            if not token:
-                return jsonify({\'message\': \'Token is missing\'}), 401
-        
+            auth_header = request.headers.get("Authorization")
+            if auth_header and auth_header.startswith("Bearer "):
+                token = auth_header.split(' ')[1]       
+            if not token:                return jsonify({"message": "Token is missing"}), 401      
             # Verify token
             try:
                 username = auth.verify_token(token)
                 if not username:
                     # This case might not be reachable if verify_token raises exceptions
-                    return jsonify({\'message\': \'Token is invalid or expired\'}), 401
+                    return jsonify({"message": "Token is invalid or expired"}), 401
             except jwt.ExpiredSignatureError:
-                 return jsonify({\'message\': \'Token is invalid or expired\'}), 401
+                 return jsonify({"message": "Token is invalid or expired"}), 401
             except jwt.InvalidTokenError:
-                 return jsonify({\'message\': \'Token is invalid or expired\'}), 401
-        
+                 return jsonify({"message": "Token is invalid or expired"}), 401       
             # Pass the username to the route
             return f(username, *args, **kwargs) # Pass username as current_user
         return decorated
