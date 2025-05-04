@@ -16,8 +16,8 @@ This directory contains tests designed to verify the functionality and layout of
 (Instructions on how to run these tests would depend on the chosen testing framework, e.g., Jest, Playwright, Cypress).
 
 Example (Conceptual):
+
 ```bash
 npm install
 npm run test:web
 ```
-

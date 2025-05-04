@@ -20,4 +20,3 @@ describe("About Page Mobile Responsiveness", () => {
 
   // Add more tests for different mobile viewports
 });
-

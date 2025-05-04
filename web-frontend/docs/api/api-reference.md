@@ -8,8 +8,8 @@ All API requests require authentication using an API key. You can obtain an API 
 
 ```javascript
 const client = new AlphaMind.Client({
-  apiKey: 'YOUR_API_KEY',
-  environment: 'production' // or 'sandbox' for testing
+  apiKey: "YOUR_API_KEY",
+  environment: "production", // or 'sandbox' for testing
 });
 ```
 
@@ -23,23 +23,23 @@ Retrieve historical market data for specified tickers and date range.
 
 **Parameters:**
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| tickers | string[] | Array of ticker symbols |
-| startDate | string | Start date in ISO format (YYYY-MM-DD) |
-| endDate | string | End date in ISO format (YYYY-MM-DD) |
-| frequency | string | Data frequency: 'tick', '1m', '5m', '1h', '1d' |
-| fields | string[] | Data fields to include (default: all) |
+| Parameter | Type     | Description                                    |
+| --------- | -------- | ---------------------------------------------- |
+| tickers   | string[] | Array of ticker symbols                        |
+| startDate | string   | Start date in ISO format (YYYY-MM-DD)          |
+| endDate   | string   | End date in ISO format (YYYY-MM-DD)            |
+| frequency | string   | Data frequency: 'tick', '1m', '5m', '1h', '1d' |
+| fields    | string[] | Data fields to include (default: all)          |
 
 **Example Request:**
 
 ```javascript
 const historicalData = await client.marketData.getHistorical({
-  tickers: ['AAPL', 'MSFT', 'GOOGL'],
-  startDate: '2023-01-01',
-  endDate: '2023-12-31',
-  frequency: '1d',
-  fields: ['open', 'high', 'low', 'close', 'volume']
+  tickers: ["AAPL", "MSFT", "GOOGL"],
+  startDate: "2023-01-01",
+  endDate: "2023-12-31",
+  frequency: "1d",
+  fields: ["open", "high", "low", "close", "volume"],
 });
 ```
 
@@ -52,11 +52,11 @@ const historicalData = await client.marketData.getHistorical({
       "ticker": "AAPL",
       "date": "2023-01-03",
       "open": 130.28,
-      "high": 130.90,
+      "high": 130.9,
       "low": 124.17,
       "close": 125.07,
       "volume": 112117500
-    },
+    }
     // Additional data points...
   ],
   "metadata": {
@@ -74,27 +74,27 @@ Subscribe to real-time market data for specified tickers.
 
 **Parameters:**
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| tickers | string[] | Array of ticker symbols |
-| fields | string[] | Data fields to include |
-| frequency | string | Data frequency: 'tick', '1m', '5m', '1h' |
+| Parameter | Type     | Description                              |
+| --------- | -------- | ---------------------------------------- |
+| tickers   | string[] | Array of ticker symbols                  |
+| fields    | string[] | Data fields to include                   |
+| frequency | string   | Data frequency: 'tick', '1m', '5m', '1h' |
 
 **Example:**
 
 ```javascript
 const subscription = await client.marketData.subscribe({
-  tickers: ['AAPL', 'MSFT', 'GOOGL'],
-  fields: ['bid', 'ask', 'last', 'volume'],
-  frequency: 'tick'
+  tickers: ["AAPL", "MSFT", "GOOGL"],
+  fields: ["bid", "ask", "last", "volume"],
+  frequency: "tick",
 });
 
-subscription.on('data', (tick) => {
+subscription.on("data", (tick) => {
   console.log(`${tick.ticker} @ ${tick.timestamp}: $${tick.last}`);
 });
 
-subscription.on('error', (error) => {
-  console.error('Subscription error:', error);
+subscription.on("error", (error) => {
+  console.error("Subscription error:", error);
 });
 
 // Unsubscribe when done
@@ -111,26 +111,26 @@ Place a new order.
 
 **Parameters:**
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| ticker | string | Ticker symbol |
-| side | string | 'BUY' or 'SELL' |
-| quantity | number | Order quantity |
-| orderType | string | 'MARKET', 'LIMIT', 'STOP', 'STOP_LIMIT' |
-| price | number | Limit price (required for LIMIT and STOP_LIMIT orders) |
-| stopPrice | number | Stop price (required for STOP and STOP_LIMIT orders) |
-| timeInForce | string | 'DAY', 'GTC', 'IOC', 'FOK' |
+| Parameter   | Type   | Description                                            |
+| ----------- | ------ | ------------------------------------------------------ |
+| ticker      | string | Ticker symbol                                          |
+| side        | string | 'BUY' or 'SELL'                                        |
+| quantity    | number | Order quantity                                         |
+| orderType   | string | 'MARKET', 'LIMIT', 'STOP', 'STOP_LIMIT'                |
+| price       | number | Limit price (required for LIMIT and STOP_LIMIT orders) |
+| stopPrice   | number | Stop price (required for STOP and STOP_LIMIT orders)   |
+| timeInForce | string | 'DAY', 'GTC', 'IOC', 'FOK'                             |
 
 **Example Request:**
 
 ```javascript
 const order = await client.orders.create({
-  ticker: 'AAPL',
-  side: 'BUY',
+  ticker: "AAPL",
+  side: "BUY",
   quantity: 100,
-  orderType: 'LIMIT',
-  price: 150.00,
-  timeInForce: 'DAY'
+  orderType: "LIMIT",
+  price: 150.0,
+  timeInForce: "DAY",
 });
 ```
 
@@ -143,7 +143,7 @@ const order = await client.orders.create({
   "side": "BUY",
   "quantity": 100,
   "orderType": "LIMIT",
-  "price": 150.00,
+  "price": 150.0,
   "timeInForce": "DAY",
   "status": "PENDING",
   "createdAt": "2023-04-08T14:30:00Z"
@@ -159,7 +159,7 @@ Retrieve the status of an order.
 **Example Request:**
 
 ```javascript
-const orderStatus = await client.orders.getStatus('ord_12345');
+const orderStatus = await client.orders.getStatus("ord_12345");
 ```
 
 **Example Response:**
@@ -172,7 +172,7 @@ const orderStatus = await client.orders.getStatus('ord_12345');
   "quantity": 100,
   "filledQuantity": 100,
   "orderType": "LIMIT",
-  "price": 150.00,
+  "price": 150.0,
   "timeInForce": "DAY",
   "status": "FILLED",
   "createdAt": "2023-04-08T14:30:00Z",
@@ -196,7 +196,7 @@ Cancel an open order.
 **Example Request:**
 
 ```javascript
-const result = await client.orders.cancel('ord_12345');
+const result = await client.orders.cancel("ord_12345");
 ```
 
 **Example Response:**
@@ -227,25 +227,25 @@ const portfolio = await client.portfolio.get();
 
 ```json
 {
-  "cash": 25000.50,
+  "cash": 25000.5,
   "positions": [
     {
       "ticker": "AAPL",
       "quantity": 100,
       "averagePrice": 149.95,
-      "marketValue": 15200.00,
-      "unrealizedPnL": 205.00
+      "marketValue": 15200.0,
+      "unrealizedPnL": 205.0
     },
     {
       "ticker": "MSFT",
       "quantity": 50,
-      "averagePrice": 280.50,
-      "marketValue": 14200.00,
-      "unrealizedPnL": 175.00
+      "averagePrice": 280.5,
+      "marketValue": 14200.0,
+      "unrealizedPnL": 175.0
     }
   ],
-  "totalValue": 54400.50,
-  "dailyPnL": 380.00
+  "totalValue": 54400.5,
+  "dailyPnL": 380.0
 }
 ```
 
@@ -259,24 +259,24 @@ Generate price predictions using AlphaMind's machine learning models.
 
 **Parameters:**
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| modelType | string | 'TFT', 'RL', 'GAN' |
-| tickers | string[] | Array of ticker symbols |
-| horizon | number | Forecast horizon in days |
-| features | object | Additional features for the model |
+| Parameter | Type     | Description                       |
+| --------- | -------- | --------------------------------- |
+| modelType | string   | 'TFT', 'RL', 'GAN'                |
+| tickers   | string[] | Array of ticker symbols           |
+| horizon   | number   | Forecast horizon in days          |
+| features  | object   | Additional features for the model |
 
 **Example Request:**
 
 ```javascript
 const predictions = await client.models.predict({
-  modelType: 'TFT',
-  tickers: ['AAPL', 'MSFT', 'GOOGL'],
+  modelType: "TFT",
+  tickers: ["AAPL", "MSFT", "GOOGL"],
   horizon: 5,
   features: {
     includeMacroData: true,
-    includeSentiment: true
-  }
+    includeSentiment: true,
+  },
 });
 ```
 
@@ -287,21 +287,39 @@ const predictions = await client.models.predict({
   "predictions": [
     {
       "ticker": "AAPL",
-      "timestamps": ["2023-04-09", "2023-04-10", "2023-04-11", "2023-04-12", "2023-04-13"],
-      "values": [151.20, 152.45, 153.10, 152.80, 154.20],
+      "timestamps": [
+        "2023-04-09",
+        "2023-04-10",
+        "2023-04-11",
+        "2023-04-12",
+        "2023-04-13"
+      ],
+      "values": [151.2, 152.45, 153.1, 152.8, 154.2],
       "confidence": [0.85, 0.82, 0.78, 0.75, 0.72]
     },
     {
       "ticker": "MSFT",
-      "timestamps": ["2023-04-09", "2023-04-10", "2023-04-11", "2023-04-12", "2023-04-13"],
-      "values": [285.30, 287.20, 288.50, 290.10, 291.40],
+      "timestamps": [
+        "2023-04-09",
+        "2023-04-10",
+        "2023-04-11",
+        "2023-04-12",
+        "2023-04-13"
+      ],
+      "values": [285.3, 287.2, 288.5, 290.1, 291.4],
       "confidence": [0.88, 0.85, 0.82, 0.79, 0.76]
     },
     {
       "ticker": "GOOGL",
-      "timestamps": ["2023-04-09", "2023-04-10", "2023-04-11", "2023-04-12", "2023-04-13"],
-      "values": [108.20, 109.50, 110.30, 111.20, 112.40],
-      "confidence": [0.86, 0.83, 0.80, 0.77, 0.74]
+      "timestamps": [
+        "2023-04-09",
+        "2023-04-10",
+        "2023-04-11",
+        "2023-04-12",
+        "2023-04-13"
+      ],
+      "values": [108.2, 109.5, 110.3, 111.2, 112.4],
+      "confidence": [0.86, 0.83, 0.8, 0.77, 0.74]
     }
   ],
   "modelMetadata": {
@@ -321,25 +339,25 @@ Train a custom model on your own data.
 
 **Parameters:**
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| modelType | string | 'TFT', 'RL', 'GAN' |
-| datasetId | string | ID of the uploaded dataset |
-| parameters | object | Model-specific parameters |
+| Parameter   | Type   | Description                             |
+| ----------- | ------ | --------------------------------------- |
+| modelType   | string | 'TFT', 'RL', 'GAN'                      |
+| datasetId   | string | ID of the uploaded dataset              |
+| parameters  | object | Model-specific parameters               |
 | callbackUrl | string | URL to notify when training is complete |
 
 **Example Request:**
 
 ```javascript
 const trainingJob = await client.models.train({
-  modelType: 'TFT',
-  datasetId: 'ds_67890',
+  modelType: "TFT",
+  datasetId: "ds_67890",
   parameters: {
     epochs: 100,
     batchSize: 32,
-    learningRate: 0.001
+    learningRate: 0.001,
   },
-  callbackUrl: 'https://your-server.com/model-callback'
+  callbackUrl: "https://your-server.com/model-callback",
 });
 ```
 
@@ -359,15 +377,15 @@ const trainingJob = await client.models.train({
 
 The API uses standard HTTP status codes to indicate the success or failure of requests.
 
-| Status Code | Description |
-|-------------|-------------|
-| 200 | Success |
-| 400 | Bad Request - Invalid parameters |
-| 401 | Unauthorized - Invalid API key |
-| 403 | Forbidden - Insufficient permissions |
-| 404 | Not Found - Resource not found |
-| 429 | Too Many Requests - Rate limit exceeded |
-| 500 | Internal Server Error |
+| Status Code | Description                             |
+| ----------- | --------------------------------------- |
+| 200         | Success                                 |
+| 400         | Bad Request - Invalid parameters        |
+| 401         | Unauthorized - Invalid API key          |
+| 403         | Forbidden - Insufficient permissions    |
+| 404         | Not Found - Resource not found          |
+| 429         | Too Many Requests - Rate limit exceeded |
+| 500         | Internal Server Error                   |
 
 Error responses include a message and error code:
 
@@ -404,22 +422,22 @@ For real-time data and updates, the API provides WebSocket connections:
 ```javascript
 const socket = client.createWebSocket();
 
-socket.on('connect', () => {
-  console.log('Connected to AlphaMind WebSocket');
+socket.on("connect", () => {
+  console.log("Connected to AlphaMind WebSocket");
 });
 
-socket.on('disconnect', () => {
-  console.log('Disconnected from AlphaMind WebSocket');
+socket.on("disconnect", () => {
+  console.log("Disconnected from AlphaMind WebSocket");
 });
 
 // Subscribe to order updates
-socket.subscribe('orders', (update) => {
-  console.log('Order update:', update);
+socket.subscribe("orders", (update) => {
+  console.log("Order update:", update);
 });
 
 // Subscribe to portfolio updates
-socket.subscribe('portfolio', (update) => {
-  console.log('Portfolio update:', update);
+socket.subscribe("portfolio", (update) => {
+  console.log("Portfolio update:", update);
 });
 
 // Close the connection when done

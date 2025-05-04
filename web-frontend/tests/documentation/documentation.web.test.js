@@ -24,4 +24,3 @@ describe("Documentation Page - Desktop View", () => {
 
   // Add more tests for specific desktop interactions
 });
-

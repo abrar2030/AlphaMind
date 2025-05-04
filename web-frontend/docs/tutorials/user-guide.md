@@ -500,17 +500,17 @@ class MomentumQualityFactor(Factor):
         super().__init__(name="momentum_quality")
         self.momentum_lookback = momentum_lookback
         self.quality_metric = quality_metric
-    
+
     def compute(self, data):
         # Calculate momentum component
         momentum = data.close.pct_change(self.momentum_lookback)
-        
+
         # Calculate quality component
         quality = data[self.quality_metric]
-        
+
         # Combine factors
         combined = momentum * quality
-        
+
         # Normalize
         return (combined - combined.mean()) / combined.std()
 
@@ -533,21 +533,21 @@ class CustomLSTMModel(BaseModel):
         self.output_dim = output_dim
         self.hidden_units = hidden_units
         self._build_model()
-    
+
     def _build_model(self):
         self.model = tf.keras.Sequential([
             tf.keras.layers.LSTM(self.hidden_units, input_shape=(None, self.input_dim)),
             tf.keras.layers.Dense(self.output_dim)
         ])
-        
+
         self.model.compile(
             optimizer='adam',
             loss='mse'
         )
-    
+
     def fit(self, X, y, **kwargs):
         return self.model.fit(X, y, **kwargs)
-    
+
     def predict(self, X):
         return self.model.predict(X)
 

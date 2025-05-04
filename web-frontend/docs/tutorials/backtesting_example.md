@@ -24,7 +24,7 @@ def load_sample_data(file_path='sample_market_data.csv'):
 class SMACrossoverStrategy:
     """
     Simple Moving Average Crossover Strategy
-    
+
     Parameters:
     -----------
     short_window : int
@@ -36,16 +36,16 @@ class SMACrossoverStrategy:
         self.short_window = short_window
         self.long_window = long_window
         self.positions = {}
-        
+
     def generate_signals(self, data):
         """
         Generate trading signals based on SMA crossover
-        
+
         Parameters:
         -----------
         data : DataFrame
             Market data with OHLCV information
-            
+
         Returns:
         --------
         DataFrame with signals (1 for buy, -1 for sell, 0 for hold)
@@ -54,27 +54,27 @@ class SMACrossoverStrategy:
         signals['ticker'] = data['ticker']
         signals['date'] = data['date']
         signals['price'] = data['close']
-        
+
         # Calculate moving averages
         signals['short_ma'] = data['close'].rolling(window=self.short_window).mean()
         signals['long_ma'] = data['close'].rolling(window=self.long_window).mean()
-        
+
         # Initialize signal column
         signals['signal'] = 0
-        
+
         # Generate signals
         signals['signal'] = np.where(signals['short_ma'] > signals['long_ma'], 1, 0)
-        
+
         # Generate positions (1, 0, -1)
         signals['position'] = signals['signal'].diff()
-        
+
         return signals
-    
+
 # Backtester class
 class Backtester:
     """
     Backtester for evaluating trading strategies
-    
+
     Parameters:
     -----------
     strategy : object
@@ -86,18 +86,18 @@ class Backtester:
         self.strategy = strategy
         self.initial_capital = initial_capital
         self.results = {}
-        
+
     def run(self, data, ticker):
         """
         Run backtest for a specific ticker
-        
+
         Parameters:
         -----------
         data : DataFrame
             Market data with OHLCV information
         ticker : str
             Ticker symbol to backtest
-            
+
         Returns:
         --------
         DataFrame with backtest results
@@ -105,10 +105,10 @@ class Backtester:
         # Filter data for the ticker
         ticker_data = data[data['ticker'] == ticker].copy()
         ticker_data = ticker_data.sort_values('date').reset_index(drop=True)
-        
+
         # Generate signals
         signals = self.strategy.generate_signals(ticker_data)
-        
+
         # Create portfolio DataFrame
         portfolio = pd.DataFrame(index=signals.index)
         portfolio['ticker'] = ticker
@@ -116,31 +116,31 @@ class Backtester:
         portfolio['price'] = signals['price']
         portfolio['signal'] = signals['signal']
         portfolio['position'] = signals['position']
-        
+
         # Calculate holdings and cash
         portfolio['holdings'] = portfolio['signal'] * portfolio['price']
         portfolio['cash'] = self.initial_capital - (portfolio['position'] * portfolio['price']).cumsum()
-        
+
         # Calculate total value
         portfolio['total'] = portfolio['holdings'] + portfolio['cash']
-        
+
         # Calculate returns
         portfolio['returns'] = portfolio['total'].pct_change()
-        
+
         self.results[ticker] = portfolio
         return portfolio
-    
+
     def run_multiple(self, data, tickers):
         """
         Run backtest for multiple tickers
-        
+
         Parameters:
         -----------
         data : DataFrame
             Market data with OHLCV information
         tickers : list
             List of ticker symbols to backtest
-            
+
         Returns:
         --------
         Dictionary of DataFrames with backtest results for each ticker
@@ -148,26 +148,26 @@ class Backtester:
         for ticker in tickers:
             self.run(data, ticker)
         return self.results
-    
+
     def calculate_metrics(self):
         """
         Calculate performance metrics for backtest results
-        
+
         Returns:
         --------
         DataFrame with performance metrics for each ticker
         """
         metrics = []
-        
+
         for ticker, portfolio in self.results.items():
             returns = portfolio['returns'].dropna()
-            
+
             # Calculate metrics
             total_return = (portfolio['total'].iloc[-1] / self.initial_capital) - 1
             annual_return = total_return / (len(returns) / 252)  # Assuming 252 trading days per year
             sharpe_ratio = returns.mean() / returns.std() * np.sqrt(252)
             max_drawdown = (portfolio['total'] / portfolio['total'].cummax() - 1).min()
-            
+
             metrics.append({
                 'ticker': ticker,
                 'total_return': total_return,
@@ -176,13 +176,13 @@ class Backtester:
                 'max_drawdown': max_drawdown,
                 'win_rate': len(returns[returns > 0]) / len(returns)
             })
-        
+
         return pd.DataFrame(metrics)
-    
+
     def plot_results(self, ticker=None):
         """
         Plot backtest results
-        
+
         Parameters:
         -----------
         ticker : str, optional
@@ -192,54 +192,54 @@ class Backtester:
             tickers = [ticker]
         else:
             tickers = list(self.results.keys())
-        
+
         # Plot equity curves
         plt.figure(figsize=(12, 6))
-        
+
         for ticker in tickers:
             portfolio = self.results[ticker]
             plt.plot(portfolio['date'], portfolio['total'], label=f"{ticker} Equity Curve")
-        
+
         plt.title('Backtest Results - Equity Curve')
         plt.xlabel('Date')
         plt.ylabel('Portfolio Value ($)')
         plt.legend()
         plt.grid(True)
         plt.tight_layout()
-        
+
         # Plot drawdowns
         plt.figure(figsize=(12, 6))
-        
+
         for ticker in tickers:
             portfolio = self.results[ticker]
             drawdown = portfolio['total'] / portfolio['total'].cummax() - 1
             plt.plot(portfolio['date'], drawdown, label=f"{ticker} Drawdown")
-        
+
         plt.title('Backtest Results - Drawdown')
         plt.xlabel('Date')
         plt.ylabel('Drawdown (%)')
         plt.legend()
         plt.grid(True)
         plt.tight_layout()
-        
+
         # Plot moving averages and signals for the first ticker
         ticker = tickers[0]
         portfolio = self.results[ticker]
         signals = self.strategy.generate_signals(data[data['ticker'] == ticker])
-        
+
         plt.figure(figsize=(12, 6))
         plt.plot(signals['date'], signals['price'], label='Price')
         plt.plot(signals['date'], signals['short_ma'], label=f"{self.strategy.short_window}-day SMA")
         plt.plot(signals['date'], signals['long_ma'], label=f"{self.strategy.long_window}-day SMA")
-        
+
         # Plot buy signals
         buy_signals = signals[signals['position'] == 1]
         plt.scatter(buy_signals['date'], buy_signals['price'], marker='^', color='g', s=100, label='Buy')
-        
+
         # Plot sell signals
         sell_signals = signals[signals['position'] == -1]
         plt.scatter(sell_signals['date'], sell_signals['price'], marker='v', color='r', s=100, label='Sell')
-        
+
         plt.title(f'{ticker} - Moving Average Crossover Strategy')
         plt.xlabel('Date')
         plt.ylabel('Price ($)')
@@ -269,7 +269,7 @@ backtester.plot_results()
 def optimize_strategy(data, ticker, short_windows, long_windows):
     """
     Optimize strategy parameters
-    
+
     Parameters:
     -----------
     data : DataFrame
@@ -280,23 +280,23 @@ def optimize_strategy(data, ticker, short_windows, long_windows):
         List of short window values to test
     long_windows : list
         List of long window values to test
-        
+
     Returns:
     --------
     DataFrame with optimization results
     """
     results = []
-    
+
     for short_window in short_windows:
         for long_window in long_windows:
             if short_window >= long_window:
                 continue
-                
+
             strategy = SMACrossoverStrategy(short_window=short_window, long_window=long_window)
             backtester = Backtester(strategy, initial_capital=100000.0)
             backtester.run(data, ticker)
             metrics = backtester.calculate_metrics()
-            
+
             results.append({
                 'short_window': short_window,
                 'long_window': long_window,
@@ -304,7 +304,7 @@ def optimize_strategy(data, ticker, short_windows, long_windows):
                 'sharpe_ratio': metrics.loc[0, 'sharpe_ratio'],
                 'max_drawdown': metrics.loc[0, 'max_drawdown']
             })
-    
+
     return pd.DataFrame(results)
 
 # Example optimization

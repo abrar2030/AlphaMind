@@ -31,6 +31,7 @@ pip install -r requirements.txt
 ```
 
 This will install all the necessary packages, including:
+
 - numpy
 - pandas
 - tensorflow
@@ -199,22 +200,22 @@ class MeanReversionStrategy(Strategy):
         super().__init__(tickers=tickers, **kwargs)
         self.lookback = lookback
         self.z_threshold = z_threshold
-        
+
     def generate_signals(self, data):
         signals = pd.DataFrame(index=data.index, columns=self.tickers)
-        
+
         for ticker in self.tickers:
             # Calculate z-score of price
             price = data[ticker]['close']
             rolling_mean = price.rolling(self.lookback).mean()
             rolling_std = price.rolling(self.lookback).std()
             z_score = (price - rolling_mean) / rolling_std
-            
+
             # Generate signals
             signals[ticker] = np.where(z_score < -self.z_threshold, 1,  # Buy signal
                               np.where(z_score > self.z_threshold, -1,  # Sell signal
                               0))  # No signal
-        
+
         return signals
 ```
 
@@ -278,10 +279,10 @@ async def process_market_data():
         input_topic='market-data-raw',
         output_topic='market-data-processed'
     )
-    
+
     # Start processing
     await processor.start()
-    
+
     try:
         # Run for 1 hour
         await asyncio.sleep(3600)
@@ -298,24 +299,24 @@ asyncio.run(process_market_data())
 ### Common Issues
 
 1. **ImportError: No module named 'alphamind'**
-   
+
    Make sure you're running Python from the project root directory or add the project to your Python path:
-   
+
    ```python
    import sys
    sys.path.append('/path/to/AlphaMind')
    ```
 
 2. **CUDA/GPU errors**
-   
+
    If you encounter GPU-related errors, try setting the environment variable to use CPU only:
-   
+
    ```bash
    export CUDA_VISIBLE_DEVICES=-1
    ```
 
 3. **Kafka connection issues**
-   
+
    Ensure Kafka and Schema Registry are running and accessible. Check your firewall settings if running on different machines.
 
 ### Getting Help

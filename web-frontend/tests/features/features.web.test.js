@@ -20,4 +20,3 @@ describe("Features Page - Desktop View", () => {
 
   // Add more tests for specific desktop interactions
 });
-

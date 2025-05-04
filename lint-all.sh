@@ -371,7 +371,7 @@ else
             print_success "Prettier $FORMAT_ACTION passed."
         fi
     fi
-    :web_frontend_done # Label for goto jump
+    # Removed invalid label :web_frontend_done
     cd "$PROJECT_ROOT" # Return to root
 fi
 
@@ -499,7 +499,7 @@ else
             print_success "Prettier $FORMAT_ACTION passed."
         fi
     fi
-    :mobile_frontend_done # Label for goto jump
+    # Removed invalid label :mobile_frontend_done
     cd "$PROJECT_ROOT" # Return to root
 fi
 

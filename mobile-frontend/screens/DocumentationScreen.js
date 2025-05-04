@@ -1,6 +1,12 @@
-import React from 'react';
-import { StyleSheet, ScrollView, Alert } from 'react-native';
-import { Surface, Headline, Paragraph, List, useTheme } from 'react-native-paper';
+import React from "react";
+import { StyleSheet, ScrollView, Alert, Text } from "react-native"; // Added Text import
+import {
+  // Surface, // Removed unused import
+  Headline,
+  Paragraph,
+  List,
+  useTheme,
+} from "react-native-paper";
 
 export default function DocumentationScreen() {
   const theme = useTheme();
@@ -12,53 +18,67 @@ export default function DocumentationScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Headline style={styles.title}>Documentation</Headline>
-      <Paragraph style={styles.paragraph}>Access comprehensive resources to help you get the most out of AlphaMind.</Paragraph>
+    <ScrollView
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: theme.colors.background },
+      ]}
+    >
+      <Headline style={styles.title}>
+        <Text>Documentation</Text>
+      </Headline>
+      <Paragraph style={styles.paragraph}>
+        <Text>
+          Access comprehensive resources to help you get the most out of
+          AlphaMind.
+        </Text>
+      </Paragraph>
 
       <Surface style={styles.listContainer} elevation={1}>
-        <List.Section title="Getting Started">
+        <List.Section title={<Text>Getting Started</Text>}>
           <List.Item
             title="User Guide"
             description="Step-by-step instructions for setting up and using the platform."
-            left={props => <List.Icon {...props} icon="book-open-page-variant-outline" />}
-            onPress={() => handlePress('User Guide')}
+            left={(props) => (
+              <List.Icon {...props} icon="book-open-page-variant-outline" />
+            )}
+            onPress={() => handlePress("User Guide")}
           />
           <List.Item
             title="Quick Start Tutorial"
             description="A fast-paced introduction to core functionalities."
-            left={props => <List.Icon {...props} icon="play-speed" />}
-            onPress={() => handlePress('Quick Start Tutorial')}
+            left={(props) => <List.Icon {...props} icon="play-speed" />}
+            onPress={() => handlePress("Quick Start Tutorial")}
           />
         </List.Section>
 
-        <List.Section title="API Reference">
+        <List.Section title={<Text>API Reference</Text>}>
           <List.Item
             title="REST API Docs"
             description="Detailed reference for all available API endpoints."
-            left={props => <List.Icon {...props} icon="api" />}
-            onPress={() => handlePress('REST API Docs')}
+            left={(props) => <List.Icon {...props} icon="api" />}
+            onPress={() => handlePress("REST API Docs")}
           />
           <List.Item
             title="Python SDK"
             description="Documentation for the AlphaMind Python client library."
-            left={props => <List.Icon {...props} icon="language-python" />}
-            onPress={() => handlePress('Python SDK')}
+            left={(props) => <List.Icon {...props} icon="language-python" />}
+            onPress={() => handlePress("Python SDK")}
           />
         </List.Section>
 
-        <List.Section title="Examples & Tutorials">
+        <List.Section title={<Text>Examples & Tutorials</Text>}>
           <List.Item
             title="Backtesting Example"
             description="Learn how to backtest trading strategies effectively."
-            left={props => <List.Icon {...props} icon="chart-line" />}
-            onPress={() => handlePress('Backtesting Example')}
+            left={(props) => <List.Icon {...props} icon="chart-line" />}
+            onPress={() => handlePress("Backtesting Example")}
           />
           <List.Item
             title="Model Training Tutorial"
             description="Guide on training custom AI/ML models."
-            left={props => <List.Icon {...props} icon="brain" />}
-            onPress={() => handlePress('Model Training Tutorial')}
+            left={(props) => <List.Icon {...props} icon="brain" />}
+            onPress={() => handlePress("Model Training Tutorial")}
           />
         </List.Section>
       </Surface>
@@ -68,21 +88,20 @@ export default function DocumentationScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
     flexGrow: 1,
-    alignItems: 'center',
     padding: 20,
   },
-  title: {
-    marginBottom: 16,
-    textAlign: 'center',
+  listContainer: {
+    borderRadius: 8,
+    width: "100%", // Optional: Add some rounding
   },
   paragraph: {
     marginBottom: 24,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  listContainer: {
-    width: '100%',
-    borderRadius: 8, // Optional: Add some rounding
+  title: {
+    marginBottom: 16,
+    textAlign: "center",
   },
 });
-
