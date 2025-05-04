@@ -1,6 +1,6 @@
+import keras  # Use modern keras import
 import numpy as np
 import tensorflow as tf
-import keras # Use modern keras import
 
 from ..attention_mechanism import FinancialTimeSeriesTransformer
 

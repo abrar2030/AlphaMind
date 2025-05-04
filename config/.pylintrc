@@ -1,0 +1,6 @@
+[MASTER]
+extension-pkg-whitelist=tensorflow.keras
+ignore-patterns=test_.*?py
+
+[FORMAT]
+max-line-length=88
