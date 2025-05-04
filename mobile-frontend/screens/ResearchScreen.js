@@ -35,7 +35,7 @@ export default function ResearchScreen() {
     },
   ];
 
-  const handlePress = (title, link) => {
+  const handlePress = (title) => {
     Alert.alert("Navigate", `Opening research paper: ${title}`);
     // In a real app, you might open a webview or navigate to a detail screen
     // e.g., Linking.openURL(link) or navigation.navigate('ResearchDetail', { paperId: link });

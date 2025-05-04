@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   kpiCard: {
-    width: "48%", // Approximately half width for two columns
     marginBottom: 16,
+    width: "48%", // Approximately half width for two columns
   },
   kpiCardContent: {
     alignItems: "center",

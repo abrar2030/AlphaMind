@@ -1,6 +1,7 @@
 {
   "name": "web-frontend",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "directories": {
     "doc": "docs",
