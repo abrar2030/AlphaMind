@@ -52,8 +52,7 @@ const StrategyDetail: React.FC<{
 
   const equityCurve =
     (curveData?.equityCurve as
-      | { day: number; value: number; benchmark: number }[]
-      | undefined) ?? [];
+      { day: number; value: number; benchmark: number }[] | undefined) ?? [];
   const rollingMetrics = buildRollingMetrics(equityCurve);
 
   return (
