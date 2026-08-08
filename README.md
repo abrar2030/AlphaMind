@@ -10,8 +10,6 @@ AlphaMind is a full-stack quantitative trading platform: a FastAPI backend that 
   <img src="docs/images/alphamind_dashboard.bmp" alt="AlphaMind Dashboard" width="80%">
 </div>
 
-> AlphaMind is a portfolio and research-grade system, not a connected production trading desk. By default the backend serves deterministic seeded and synthetic data so the whole stack runs end to end with no external accounts. A real market-data path is wired through Yahoo Finance (and an optional Polygon connector) and is used automatically when reachable. There is no live broker integration; order placement is simulated in-process.
-
 ## Table of Contents
 
 - [Overview](#overview)
