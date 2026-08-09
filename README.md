@@ -7,7 +7,7 @@
 AlphaMind is a full-stack quantitative trading platform: a FastAPI backend that serves portfolio, strategy, risk, backtest, market-data, trading, research, and alternative-data APIs, a React web dashboard, and a React Native (Expo) mobile app, all sharing one "Quant Terminal" design language. Alongside the application is a research codebase of machine-learning and quantitative modules (forecasting transformers, reinforcement-learning agents, generative models, Bayesian risk, and execution analytics).
 
 <div align="center">
-  <img src="docs/images/alphamind_dashboard.bmp" alt="AlphaMind Dashboard" width="80%">
+  <img src="docs/images/homepage.bmp" alt="AlphaMind HomePage" width="80%">
 </div>
 
 ## Table of Contents
