@@ -53,7 +53,9 @@ AlphaMind/
 │       ├── agents/         # DDPG, PPO, replay buffer
 │       ├── environments/   # Trading and portfolio Gym environments
 │       ├── forecasting/    # Transformer, attention, multi-horizon models
-│       └── generative/     # GAN, generator, discriminator, regime models
+│       ├── generative/     # GAN, generator, discriminator, regime models
+│       ├── research/       # Factor, alpha decay, regime, execution studies
+│       └── examples/       # Runnable usage examples per module
 ├── web-frontend/           # React + TypeScript + Vite dashboard
 ├── mobile-frontend/        # React Native + Expo app
 ├── infrastructure/         # Docker, Kubernetes, Terraform, Ansible
@@ -71,7 +73,7 @@ AlphaMind/
 - Market-data service with a live connector waterfall (Yahoo Finance, then an optional Polygon connector) and a deterministic synthetic fallback so quotes and history are always available.
 - SQLAlchemy data layer. Development uses SQLite (`alphamind.db`); MySQL and PostgreSQL async drivers are included for other environments. Alembic manages migrations.
 - React web dashboard: Home, Dashboard, Strategies, Portfolio, Backtest, Risk, Market Data, Trading, Research, Alternative Data, Documentation, About, Settings, and authentication screens.
-- React Native (Expo) app with the same feature set across bottom-tab and stacked navigation, Redux Toolkit state, and a light/dark theme.
+- React Native (Expo) app covering the same functional areas through bottom-tab and stacked navigation, Redux Toolkit state, and a light/dark theme. Alternative data is surfaced inside the Research screen rather than as its own tab.
 - Graceful degradation in both clients: if the backend is unreachable, account creation and sign-in fall back to a local demo session and data screens render empty or placeholder states instead of failing hard.
 
 ### Research tier (library modules)
@@ -93,7 +95,7 @@ These modules are part of the codebase and can be imported and run; they are not
 | Data layer      | SQLAlchemy 2, Alembic, SQLite (dev), MySQL / PostgreSQL (async drivers), Redis                       |
 | ML / Quant      | PyTorch, TensorFlow, scikit-learn, Gymnasium, Stable-Baselines3, PyMC, QuantLib, NumPy, Pandas, Dask |
 | Market data     | yfinance (Yahoo Finance), optional Polygon connector                                                 |
-| Web frontend    | React 19, TypeScript, Vite 7, Tailwind CSS, React Router, TanStack Query, axios, Recharts, D3        |
+| Web frontend    | React 19, TypeScript, Vite 7, Tailwind CSS, React Router, TanStack Query, axios, Recharts            |
 | Mobile frontend | React Native, Expo, React Navigation, Redux Toolkit, React Native Paper, axios                       |
 | Infrastructure  | Docker, Docker Compose, Kubernetes, Terraform, Ansible                                               |
 | CI/CD           | GitHub Actions                                                                                       |
