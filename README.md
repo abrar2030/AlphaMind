@@ -14,7 +14,7 @@ AlphaMind is a full-stack quantitative trading platform: a FastAPI backend that 
 
 - [Overview](#overview)
 - [Project Structure](#project-structure)
-- [What Is Actually Implemented](#what-is-actually-implemented)
+- [Feature Status](#feature-status)
 - [Technology Stack](#technology-stack)
 - [Architecture](#architecture)
 - [Installation and Setup](#installation-and-setup)
@@ -64,25 +64,29 @@ AlphaMind/
 └── README.md
 ```
 
-## What Is Actually Implemented
+## Feature Status
 
 ### Application tier (wired and tested)
 
-- FastAPI backend exposing versioned endpoints under `/api/v1` (with non-versioned `/api/*` aliases) for portfolio, strategies, risk, backtest, market data, trading, research, and alternative data, plus authentication under `/api/auth` and health checks.
-- Authentication using bcrypt password hashing and HS256 JSON Web Tokens with expiry. The signing key is read from `SECRET_KEY` and the app refuses to start in production or staging if it is unset, the placeholder, or shorter than 32 characters.
-- Market-data service with a live connector waterfall (Yahoo Finance, then an optional Polygon connector) and a deterministic synthetic fallback so quotes and history are always available.
-- SQLAlchemy data layer. Development uses SQLite (`alphamind.db`); MySQL and PostgreSQL async drivers are included for other environments. Alembic manages migrations.
-- React web dashboard: Home, Dashboard, Strategies, Portfolio, Backtest, Risk, Market Data, Trading, Research, Alternative Data, Documentation, About, Settings, and authentication screens.
-- React Native (Expo) app covering the same functional areas through bottom-tab and stacked navigation, Redux Toolkit state, and a light/dark theme. Alternative data is surfaced inside the Research screen rather than as its own tab.
-- Graceful degradation in both clients: if the backend is unreachable, account creation and sign-in fall back to a local demo session and data screens render empty or placeholder states instead of failing hard.
+| Component                | Details                                                                                                                                                                                                                                                      |
+| :----------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **API**                  | FastAPI backend exposing versioned endpoints under `/api/v1` (with non-versioned `/api/*` aliases) for portfolio, strategies, risk, backtest, market data, trading, research, and alternative data, plus authentication under `/api/auth` and health checks. |
+| **Auth**                 | bcrypt password hashing and HS256 JSON Web Tokens with expiry. The signing key is read from `SECRET_KEY`, and the app refuses to start in production or staging if it is unset, the placeholder, or shorter than 32 characters.                              |
+| **Market data**          | A live connector waterfall (Yahoo Finance, then an optional Polygon connector) backed by a deterministic synthetic fallback, so quotes and history are always available.                                                                                     |
+| **Data layer**           | SQLAlchemy over SQLite in development (`alphamind.db`), with async MySQL and PostgreSQL drivers for other environments and Alembic managing migrations.                                                                                                      |
+| **Web dashboard**        | React app covering Home, Dashboard, Strategies, Portfolio, Backtest, Risk, Market Data, Trading, Research, Alternative Data, Documentation, About, Settings, and authentication screens.                                                                     |
+| **Mobile app**           | React Native (Expo) app covering the same functional areas through bottom-tab and stacked navigation, Redux Toolkit state, and a light/dark theme. Alternative data is surfaced inside the Research screen rather than as its own tab.                       |
+| **Graceful degradation** | If the backend is unreachable, both clients fall back to a local demo session for account creation and sign-in, and data screens render empty or placeholder states instead of failing hard.                                                                 |
 
 ### Research tier (library modules)
 
-- Forecasting: transformer, attention, and multi-horizon model implementations (PyTorch / TensorFlow).
-- Reinforcement learning: DDPG and PPO agents with replay buffers and custom trading and portfolio Gym environments.
-- Generative models: GAN components for synthetic series and a regime model.
-- Risk: Bayesian Value at Risk (PyMC), stress testing, counterparty and aggregation modules.
-- Execution: liquidity forecasting, market-impact, order management, and routing modules.
+| Component                  | Details                                                                                    |
+| :------------------------- | :----------------------------------------------------------------------------------------- |
+| **Forecasting**            | Transformer, attention, and multi-horizon model implementations (PyTorch / TensorFlow).    |
+| **Reinforcement learning** | DDPG and PPO agents with replay buffers and custom trading and portfolio Gym environments. |
+| **Generative models**      | GAN components for synthetic series and a regime model.                                    |
+| **Risk**                   | Bayesian Value at Risk (PyMC), stress testing, counterparty and aggregation modules.       |
+| **Execution**              | Liquidity forecasting, market-impact, order management, and routing modules.               |
 
 These modules are part of the codebase and can be imported and run; they are not all connected to the live API responses, which by default are seeded.
 
