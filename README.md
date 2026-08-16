@@ -105,8 +105,6 @@ These modules are part of the codebase and can be imported and run; they are not
 | CI/CD           | GitHub Actions                                                                                       |
 | Testing         | pytest (backend), Vitest (web), Jest (mobile)                                                        |
 
-Not part of this project, despite being common in this space: C++ components, Apache Kafka/Spark as runtime dependencies of the app (the Compose file provisions Kafka and Redis for a fuller local stack, but the API runs without them), GraphQL, InfluxDB, and live broker connectivity.
-
 ## Architecture
 
 AlphaMind is organized in tiers rather than a sprawl of microservices:
