@@ -155,7 +155,6 @@ class MarketDataService:
         try:
             import yfinance as yf
 
-            # BUG-3 fix: use get_running_loop() not get_event_loop()
             loop = asyncio.get_running_loop()
 
             def _fetch() -> Optional[float]:
@@ -176,7 +175,6 @@ class MarketDataService:
         try:
             import yfinance as yf
 
-            # BUG-3 fix: use get_running_loop() not get_event_loop()
             loop = asyncio.get_running_loop()
 
             def _fetch() -> List[Dict[str, Any]]:
@@ -193,8 +191,6 @@ class MarketDataService:
                 if hist.empty:
                     return []
 
-                # BUG-4 fix: yfinance ≥ 0.2.38 returns MultiIndex columns
-                # e.g. ("Open", "AAPL") instead of "Open". Flatten to single level.
                 import pandas as pd
 
                 if isinstance(hist.columns, pd.MultiIndex):

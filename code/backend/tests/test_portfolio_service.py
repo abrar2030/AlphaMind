@@ -83,8 +83,6 @@ class TestPortfolioService:
         assert result is not None
         assert result["realizedPnL"] == 1900.0
 
-        # BUG-2 + BUG-10 fix: get_position() is a PK lookup (returns any status).
-        # Verify removal from the open-positions list instead.
         open_positions = await svc.get_positions()
         open_ids = [p["id"] for p in open_positions]
         assert "pos-002" not in open_ids

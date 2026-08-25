@@ -18,7 +18,6 @@ class StrategyCreate(BaseModel):
     name: str
     description: str
     type: str
-    # BUG-8 fix: mutable default replaced with Field(default_factory=dict)
     parameters: Optional[Dict[str, Any]] = Field(default_factory=dict)
 
 

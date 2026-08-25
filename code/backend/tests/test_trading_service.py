@@ -21,7 +21,6 @@ class TestTradingService:
         )
         assert order["status"] == "filled"
         assert order["filledAt"] is not None
-        # BUG-9 fix: filled price = price * (1 + 0.0005) = 175.0875
         assert order["filledPrice"] is not None
         assert order["filledPrice"] == pytest.approx(175.0 * 1.0005, rel=1e-6)
 
@@ -37,7 +36,6 @@ class TestTradingService:
         )
         assert order["status"] == "filled"
         assert order["filledAt"] is not None
-        # No reference price → no fill price recorded (BUG-9 fix: not $100)
         assert order["filledPrice"] is None
 
     async def test_limit_order_remains_pending(self, db_session):
